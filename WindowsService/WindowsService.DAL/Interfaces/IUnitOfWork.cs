@@ -1,5 +1,5 @@
 ﻿using System;
-using WindowsService.DAL.Entities;
+using Entities;
 
 namespace WindowsService.DAL.Interfaces
 {

@@ -2,17 +2,16 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using WindowsService.DAL.Entities;
-using WindowsService.DAL.EntityFramework;
 using WindowsService.DAL.Interfaces;
+using Entities;
 
 namespace WindowsService.DAL.Repositories
 {
     public class SalesRepository: IRepository<Sales>
     {
-        private SalesContext db;
+        private EF db;
 
-        public SalesRepository(SalesContext context)
+        public SalesRepository(EF context)
         {
             db = context;
         }

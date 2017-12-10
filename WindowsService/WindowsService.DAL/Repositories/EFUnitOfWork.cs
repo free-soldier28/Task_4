@@ -1,13 +1,12 @@
 ﻿using System;
-using WindowsService.DAL.Entities;
-using WindowsService.DAL.EntityFramework;
 using WindowsService.DAL.Interfaces;
+using Entities;
 
 namespace WindowsService.DAL.Repositories
 {
     public class EFUnitOfWork: IUnitOfWork
     {
-        private SalesContext db;
+        private EF db;
         private CustomerRepository customerRepository;
         private ManagerRepository managerRepository;
         private ProductRepository productRepository;
@@ -16,7 +15,7 @@ namespace WindowsService.DAL.Repositories
 
         public EFUnitOfWork(string connectionString)
         {
-            db = new SalesContext(connectionString);
+            db = new EF();
         }
 
         public IRepository<Customer> Customers
