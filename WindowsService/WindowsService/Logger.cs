@@ -2,13 +2,14 @@
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Threading;
+using WindowsService.BLL;
+using WindowsService.BLL.DTO;
 
 namespace WindowsService
 {
     public class Logger
     {
         FileSystemWatcher watcher;
-        private StreamReader file;
         object obj = new object();
         bool enabled = true;
 
@@ -54,45 +55,23 @@ namespace WindowsService
 
         private void Watcher_Created(object sender, FileSystemEventArgs e)
         {
+            bool flag;
             string fileEvent = "создан";
             string filePath = e.FullPath;
             RecordEntry(fileEvent, filePath);
 
-            string fileName = "";
-            string Name = "";
-            string Date = "";
-            string[] substrings; 
+            ParserCSV parser = new ParserCSV();
+            flag = parser.ParseFile(filePath);
 
-
-            FileInfo fileInf = new FileInfo(filePath);
-
-            if (fileInf.Exists)
+            if (flag)
             {
-                fileName = fileInf.Name;
-
-                int n1 = 0;
-                int n2 = 0;
-
-                for (int i = 1; i < fileName.Length; i++)
-                {
-                    if (fileName[i] == '_') n1 = i;
-                    else if (fileName[i] == '.') n2 = i;
-                }
-
-                Name = fileName.Substring(1, n1 - 1);
-                Date = fileName.Substring(n1 + 1, n2 - n1 - 1);
+                fileEvent = "успешно распаршен";
             }
-
-
-            using (file = new StreamReader(e.FullPath, System.Text.Encoding.Default))
+            else
             {
-                string line = null;
-                while ((line = file.ReadLine()) != null)
-                {
-                    substrings = Regex.Split(line, ";");
-
-                }
+                fileEvent = "не удалось распарсить";
             }
+            RecordEntry(fileEvent, filePath);
         }
 
         private void Watcher_Deleted(object sender, FileSystemEventArgs e)
