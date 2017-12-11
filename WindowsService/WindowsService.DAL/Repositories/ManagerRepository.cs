@@ -9,9 +9,9 @@ namespace WindowsService.DAL.Repositories
 {
     public class ManagerRepository: IRepository<Manager>
     {
-        private EF db;
+        private EFContext db;
 
-        public ManagerRepository(EF context)
+        public ManagerRepository(EFContext context)
         {
             db = context;
         }

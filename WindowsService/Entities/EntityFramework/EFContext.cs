@@ -2,9 +2,9 @@ namespace Entities
 {
     using System.Data.Entity;
 
-    public partial class EF : DbContext
+    public partial class EFContext : DbContext
     {
-        public EF()
+        public EFContext()
             : base("name=SalesContext")
         {
         }

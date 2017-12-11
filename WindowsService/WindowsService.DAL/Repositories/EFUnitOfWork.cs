@@ -6,16 +6,16 @@ namespace WindowsService.DAL.Repositories
 {
     public class EFUnitOfWork: IUnitOfWork
     {
-        private EF db;
+        private EFContext db;
         private CustomerRepository customerRepository;
         private ManagerRepository managerRepository;
         private ProductRepository productRepository;
         private SalesRepository salesRepository;
         private bool disposed = false;
 
-        public EFUnitOfWork(string connectionString)
+        public EFUnitOfWork()
         {
-            db = new EF();
+            db = new EFContext();
         }
 
         public IRepository<Customer> Customers

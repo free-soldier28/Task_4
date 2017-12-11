@@ -2,6 +2,8 @@
 using System.IO;
 using System.Text.RegularExpressions;
 using WindowsService.BLL.Interfaces;
+using WindowsService.DAL.Interfaces;
+using WindowsService.DAL.Repositories;
 
 
 namespace WindowsService.BLL
@@ -41,7 +43,9 @@ namespace WindowsService.BLL
 
                 using (StreamReader file = new StreamReader(filePath, System.Text.Encoding.Default))
                 {
-                    SalesService salesService = new SalesService();
+                    IUnitOfWork uow = new EFUnitOfWork();
+                    ISalesService salesService = new SalesService(uow);
+
                     string line = null;
 
                     while ((line = file.ReadLine()) != null)
