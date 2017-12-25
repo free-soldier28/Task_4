@@ -2,6 +2,7 @@
 using System.Configuration;
 using System.IO;
 using System.Threading;
+using System.Threading.Tasks;
 using WindowsService.BLL;
 
 
@@ -68,26 +69,29 @@ namespace WindowsService
             RecordEntry(fileEvent, filePath);
 
             ParserCSV parser = new ParserCSV();
-            flag = parser.ParseFile(filePath);
-
-            if (flag)
+            Task.Factory.StartNew(() =>
             {
-                fileEvent = "успешно распаршен";
-                RecordEntry(fileEvent, filePath);
+                flag = parser.ParseFile(filePath);
 
-                if (File.Exists(_dirSalesTreated + "\\" + e.Name))
+                if (flag)
                 {
-                    File.Delete(_dirSalesTreated);
+                    fileEvent = "успешно распаршен";
+                    RecordEntry(fileEvent, filePath);
+
+                    if (File.Exists(_dirSalesTreated + "\\" + e.Name))
+                    {
+                        File.Delete(_dirSalesTreated);
+                    }
+                    File.Move(_dirSales + "\\" + e.Name, _dirSalesTreated + "\\" + e.Name);
+                    fileEvent = "был перенесен в " + _dirSalesTreated + "\\" + e.Name;
+                    RecordEntry(fileEvent, filePath);
                 }
-                File.Move(_dirSales + "\\" + e.Name, _dirSalesTreated + "\\" + e.Name);
-                fileEvent = "был перенесен в "+ _dirSalesTreated + "\\" + e.Name;
-                RecordEntry(fileEvent, filePath);
-            }
-            else
-            {
-                fileEvent = "не удалось распарсить";
-                RecordEntry(fileEvent, filePath);
-            }
+                else
+                {
+                    fileEvent = "не удалось распарсить";
+                    RecordEntry(fileEvent, filePath);
+                }
+            });
         }
 
         private void Watcher_Deleted(object sender, FileSystemEventArgs e)
