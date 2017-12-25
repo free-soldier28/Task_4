@@ -6,7 +6,7 @@ namespace WindowsService.DAL.Repositories
 {
     public class EFUnitOfWork: IUnitOfWork
     {
-        private EFContext db;
+        private SalesDBContext db;
         private CustomerRepository customerRepository;
         private ManagerRepository managerRepository;
         private ProductRepository productRepository;
@@ -15,7 +15,7 @@ namespace WindowsService.DAL.Repositories
 
         public EFUnitOfWork()
         {
-            db = new EFContext();
+            db = new SalesDBContext();
         }
 
         public IRepository<Customer> Customers

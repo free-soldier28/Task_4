@@ -9,9 +9,9 @@ namespace WindowsService.DAL.Repositories
 {
     public class ProductRepository: IRepository<Product>
     {
-        private EFContext db;
+        private SalesDBContext db;
 
-        public ProductRepository(EFContext context)
+        public ProductRepository(SalesDBContext context)
         {
             db = context;
         }

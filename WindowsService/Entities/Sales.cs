@@ -1,23 +1,24 @@
+using System;
+using System.ComponentModel.DataAnnotations;
+
 namespace Entities
 {
-    using System;
-    using System.ComponentModel.DataAnnotations.Schema;
-
-    [Table("Saleses")]
     public partial class Sales
     {
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int Id { get; set; }
 
-        public int IdManager { get; set; }
-
-        public int IdCustomer { get; set; }
-
-        public int IdProduct { get; set; }
+        [Required]
         public double Amount { get; set; }
 
-        [Column(TypeName = "date")]
+        [Required]
         public DateTime Date { get; set; }
+
+
+        public int ManagerID { get; set; }
+
+        public int CustomerID { get; set; }
+
+        public int ProductID { get; set; }
 
         public virtual Customer Customer { get; set; }
 
